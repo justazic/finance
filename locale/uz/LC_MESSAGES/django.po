@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Language: uz\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Finance Manager"
+msgstr "Moliyaviy boshqaruv"
+
+msgid "Dashboard"
+msgstr "Bosh sahifa"
+
+msgid "Add wallet"
+msgstr "Wallet qo‘shish"
+
+msgid "Add income"
+msgstr "Kirim qo‘shish"
+
+msgid "Add expense"
+msgstr "Chiqim qo‘shish"
+
+msgid "Logout"
+msgstr "Chiqish"
+
+msgid "Login"
+msgstr "Kirish"
+
+msgid "Register"
+msgstr "Ro‘yxatdan o‘tish"
+
+msgid "Username"
+msgstr "Foydalanuvchi nomi"
+
+msgid "Password"
+msgstr "Parol"
+
+msgid "My wallets"
+msgstr "Mening walletlarim"
+
+msgid "Total income"
+msgstr "Jami kirim"
+
+msgid "Total expense"
+msgstr "Jami chiqim"
+
+msgid "Daily report"
+msgstr "Kunlik hisobot"
+
+msgid "Weekly report"
+msgstr "Haftalik hisobot"
+
+msgid "Monthly report"
+msgstr "Oylik hisobot"
+
+msgid "Incomes"
+msgstr "Kirimlar"
+
+msgid "Expenses"
+msgstr "Chiqimlar"
+
+msgid "Save"
+msgstr "Saqlash"

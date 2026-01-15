@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+            <div class="card-header bg-primary text-white p-4 text-center">
+                <i class="fas fa-credit-card fa-2x mb-2"></i>
+                <h4 class="mb-0">Yangi karta bog'lash</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Karta nomi (Uzcard, Humo...)</label>
+                        <input type="text" name="name" class="form-control" placeholder="Masalan: Ish haqi kartasi" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Karta raqami (16 raqamli)</label>
+                        <input type="text" name="card_number" id="cardInput" maxlength="19" class="form-control font-monospace" placeholder="0000 0000 0000 0000" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label small fw-bold">Boshlang'ich balans</label>
+                            <input type="number" name="balance" class="form-control" value="0" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label small fw-bold">Valyuta</label>
+                            <select name="currency" class="form-select">
+                                <option value="UZS">UZS</option>
+                                <option value="USD">USD</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2 mt-3 fw-bold shadow">Kartani saqlash</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Karta raqamini har 4 ta raqamdan keyin probel bilan ajratish (vizual effekt)
+    document.getElementById('cardInput').addEventListener('input', function (e) {
+        e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{4})/g, '$1 ').trim();
+    });
+</script>
+{% endblock %}

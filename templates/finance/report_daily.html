@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">Hisobot: {{ request.resolver_match.url_name|title }}</h4>
+        <div class="btn-group shadow-sm">
+            <a href="{% url 'daily_report' %}" class="btn btn-white border {% if 'daily' in request.path %}active btn-primary{% endif %}">Kunlik</a>
+            <a href="{% url 'weekly_report' %}" class="btn btn-white border {% if 'weekly' in request.path %}active btn-primary{% endif %}">Haftalik</a>
+            <a href="{% url 'monthly_report' %}" class="btn btn-white border {% if 'monthly' in request.path %}active btn-primary{% endif %}">Oylik</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="p-3 border rounded-3 bg-light mb-3 d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 text-success fw-bold">Kirimlar</h6>
+                <i class="fas fa-arrow-up text-success"></i>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    {% for inc in incomes %}
+                    <tr>
+                        <td>{{ inc.category.name }}</td>
+                        <td class="text-end fw-bold text-success">+{{ inc.ammount }} {{ inc.currency }}</td>
+                        <td class="text-muted small text-end">{{ inc.created_at|date:"d.m.Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="3" class="text-center text-muted">Ma'lumot yo'q</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="p-3 border rounded-3 bg-light mb-3 d-flex justify-content-between align-items-center">
+                <h6 class="mb-0 text-danger fw-bold">Chiqimlar</h6>
+                <i class="fas fa-arrow-down text-danger"></i>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    {% for exp in expenses %}
+                    <tr>
+                        <td>{{ exp.category.name }}</td>
+                        <td class="text-end fw-bold text-danger">-{{ exp.ammount }} {{ exp.currency }}</td>
+                        <td class="text-muted small text-end">{{ exp.created_at|date:"d.m.Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="3" class="text-center text-muted">Ma'lumot yo'q</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

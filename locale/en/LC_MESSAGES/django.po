@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Language: en\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Finance Manager"
+msgstr "Finance Manager"
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgid "Add wallet"
+msgstr "Add wallet"
+
+msgid "Add income"
+msgstr "Add income"
+
+msgid "Add expense"
+msgstr "Add expense"
+
+msgid "Logout"
+msgstr "Logout"
+
+msgid "Login"
+msgstr "Login"
+
+msgid "Register"
+msgstr "Register"
+
+msgid "Username"
+msgstr "Username"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "My wallets"
+msgstr "My wallets"
+
+msgid "Total income"
+msgstr "Total income"
+
+msgid "Total expense"
+msgstr "Total expense"
+
+msgid "Daily report"
+msgstr "Daily report"
+
+msgid "Weekly report"
+msgstr "Weekly report"
+
+msgid "Monthly report"
+msgstr "Monthly report"
+
+msgid "Incomes"
+msgstr "Incomes"
+
+msgid "Expenses"
+msgstr "Expenses"
+
+msgid "Save"
+msgstr "Save"
