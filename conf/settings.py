@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,7 +41,6 @@ INSTALLED_APPS = [
     'modeltranslation',
     'accounts',
     'finance',
-    'core',
 ]
 
 MIDDLEWARE = [
@@ -108,16 +108,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
 LANGUAGE_CODE = 'uz'
-
-LANGUAGES = (('uz', 'Uzbek'),
-             ('ru', 'Russian'),
-             ('en', 'English'),
-)
-
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tashkent'
+LANGUAGES = [
+    ('uz', 'Uzbek'),
+    ('ru', 'Russian'),
+    ('en', 'English'),
+]
 
 USE_I18N = True
-USE_L10N = True
 USE_TZ = True
 LOCALE_PATHS = [BASE_DIR / 'locale']
 

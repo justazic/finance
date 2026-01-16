@@ -1,53 +1,216 @@
 {% extends 'base.html' %}
+
+{% block title %}
+{% if request.LANGUAGE_CODE == 'ru' %}
+    Месячный отчёт – FinHub
+{% elif request.LANGUAGE_CODE == 'en' %}
+    Monthly Report – FinHub
+{% else %}
+    Oylik hisobot – FinHub
+{% endif %}
+{% endblock %}
+
+
 {% block content %}
-<div class="card p-4">
+<style>
+    .report-wrapper {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .summary-card {
+        background: white;
+        border-radius: 20px;
+        padding: 25px;
+        border: 1px solid #f0f0f0;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        height: 100%;
+    }
+
+    .summary-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    .icon-income { background: rgba(46, 204, 113, 0.1); color: #2ecc71; }
+    .icon-expense { background: rgba(231, 76, 60, 0.1); color: #e74c3c; }
+
+    .transaction-container {
+        background: white;
+        border-radius: 24px;
+        padding: 30px;
+        margin-top: 30px;
+        border: 1px solid #f0f0f0;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+    }
+
+    .section-title {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .transaction-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 16px;
+        border-radius: 16px;
+        margin-bottom: 10px;
+    }
+
+    .item-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .category-circle {
+        width: 40px;
+        height: 40px;
+        background: #f1f2f6;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #7f8c8d;
+    }
+
+    .amount-text {
+        font-weight: 700;
+        font-size: 1rem;
+    }
+
+    .badge-date {
+        font-size: 0.75rem;
+        color: #95a5a6;
+        display: block;
+    }
+</style>
+
+<div class="report-wrapper">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="fw-bold mb-0">Hisobot: {{ request.resolver_match.url_name|title }}</h4>
-        <div class="btn-group shadow-sm">
-            <a href="{% url 'daily_report' %}" class="btn btn-white border {% if 'daily' in request.path %}active btn-primary{% endif %}">Kunlik</a>
-            <a href="{% url 'weekly_report' %}" class="btn btn-white border {% if 'weekly' in request.path %}active btn-primary{% endif %}">Haftalik</a>
-            <a href="{% url 'monthly_report' %}" class="btn btn-white border {% if 'monthly' in request.path %}active btn-primary{% endif %}">Oylik</a>
+        <h2 style="font-weight: 800;">
+            {% if request.LANGUAGE_CODE == 'ru' %}
+                Аналитика
+            {% elif request.LANGUAGE_CODE == 'en' %}
+                Analytics
+            {% else %}
+                Analitika
+            {% endif %}
+        </h2>
+        <a href="{% url 'dashboard' %}" class="btn btn-light btn-sm rounded-pill px-3">
+            <i class="bi bi-house-door me-1"></i>
+            {% if request.LANGUAGE_CODE == 'ru' %}Главная
+            {% elif request.LANGUAGE_CODE == 'en' %}Home
+            {% else %}Bosh sahifa{% endif %}
+        </a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="summary-card">
+                <div class="summary-icon icon-income">
+                    <i class="bi bi-arrow-up-right"></i>
+                </div>
+                <small class="text-muted fw-bold">
+                    {% if request.LANGUAGE_CODE == 'ru' %}Общий доход
+                    {% elif request.LANGUAGE_CODE == 'en' %}Total income
+                    {% else %}Jami kirim{% endif %}
+                </small>
+                <h3 class="fw-bold text-success mt-1 mb-0">
+                    + {{ total_income }} <small>UZS</small>
+                </h3>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="summary-card">
+                <div class="summary-icon icon-expense">
+                    <i class="bi bi-arrow-down-left"></i>
+                </div>
+                <small class="text-muted fw-bold">
+                    {% if request.LANGUAGE_CODE == 'ru' %}Общий расход
+                    {% elif request.LANGUAGE_CODE == 'en' %}Total expense
+                    {% else %}Jami chiqim{% endif %}
+                </small>
+                <h3 class="fw-bold text-danger mt-1 mb-0">
+                    - {{ total_expense }} <small>UZS</small>
+                </h3>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-6 mb-4">
-            <div class="p-3 border rounded-3 bg-light mb-3 d-flex justify-content-between align-items-center">
-                <h6 class="mb-0 text-success fw-bold">Kirimlar</h6>
-                <i class="fas fa-arrow-up text-success"></i>
-            </div>
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    {% for inc in incomes %}
-                    <tr>
-                        <td>{{ inc.category.name }}</td>
-                        <td class="text-end fw-bold text-success">+{{ inc.ammount }} {{ inc.currency }}</td>
-                        <td class="text-muted small text-end">{{ inc.created_at|date:"d.m.Y" }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr><td colspan="3" class="text-center text-muted">Ma'lumot yo'q</td></tr>
-                    {% endfor %}
-                </table>
-            </div>
-        </div>
+    <div class="transaction-container">
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <h5 class="section-title text-success">
+                    ● {% if request.LANGUAGE_CODE == 'ru' %}Доходы
+                      {% elif request.LANGUAGE_CODE == 'en' %}Incomes
+                      {% else %}Kirimlar{% endif %}
+                </h5>
 
-        <div class="col-lg-6">
-            <div class="p-3 border rounded-3 bg-light mb-3 d-flex justify-content-between align-items-center">
-                <h6 class="mb-0 text-danger fw-bold">Chiqimlar</h6>
-                <i class="fas fa-arrow-down text-danger"></i>
+                {% for inc in incomes %}
+                <div class="transaction-item">
+                    <div class="item-info">
+                        <div class="category-circle"><i class="bi bi-plus-lg"></i></div>
+                        <div>
+                            <span class="fw-bold">{{ inc.category.name }}</span>
+                            <small class="badge-date">{{ inc.created_at|date:"d-M, Y" }}</small>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <span class="amount-text text-success">+{{ inc.ammount }}</span>
+                        <small class="text-muted">{{ inc.currency }}</small>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted text-center">
+                    {% if request.LANGUAGE_CODE == 'ru' %}Доходов нет
+                    {% elif request.LANGUAGE_CODE == 'en' %}No incomes
+                    {% else %}Kirimlar mavjud emas{% endif %}
+                </p>
+                {% endfor %}
             </div>
-            <div class="table-responsive">
-                <table class="table table-hover">
-                    {% for exp in expenses %}
-                    <tr>
-                        <td>{{ exp.category.name }}</td>
-                        <td class="text-end fw-bold text-danger">-{{ exp.ammount }} {{ exp.currency }}</td>
-                        <td class="text-muted small text-end">{{ exp.created_at|date:"d.m.Y" }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr><td colspan="3" class="text-center text-muted">Ma'lumot yo'q</td></tr>
-                    {% endfor %}
-                </table>
+
+            <div class="col-lg-6">
+                <h5 class="section-title text-danger">
+                    ● {% if request.LANGUAGE_CODE == 'ru' %}Расходы
+                      {% elif request.LANGUAGE_CODE == 'en' %}Expenses
+                      {% else %}Chiqimlar{% endif %}
+                </h5>
+
+                {% for exp in expenses %}
+                <div class="transaction-item">
+                    <div class="item-info">
+                        <div class="category-circle"><i class="bi bi-dash-lg"></i></div>
+                        <div>
+                            <span class="fw-bold">{{ exp.category.name }}</span>
+                            <small class="badge-date">{{ exp.created_at|date:"d-M, Y" }}</small>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <span class="amount-text text-danger">-{{ exp.ammount }}</span>
+                        <small class="text-muted">{{ exp.currency }}</small>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted text-center">
+                    {% if request.LANGUAGE_CODE == 'ru' %}Расходов нет
+                    {% elif request.LANGUAGE_CODE == 'en' %}No expenses
+                    {% else %}Chiqimlar mavjud emas{% endif %}
+                </p>
+                {% endfor %}
             </div>
         </div>
     </div>
